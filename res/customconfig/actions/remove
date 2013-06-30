@@ -1,0 +1,5 @@
+#!/sbin/busybox sh
+if [ -f /data/bkp.profile ]; then
+rm /data/bkp.profile
+echo "Backup deleted"
+fi

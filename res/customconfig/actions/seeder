@@ -1,0 +1,30 @@
+#!/sbin/busybox sh
+
+if [ "$2" ]; then
+    seeder=$2
+
+    case "${seeder}" in
+	default)
+	    pkill rngd;pkill qrngd
+	    [ -f /data/config.txt ] && sed -i -e "s/^START_SEEDER=.*/START_SEEDER=0/g" /data/config.txt
+	    ;;
+	rngd)
+	    if [ -f /system/bin/rngd ]; then
+		pkill rngd;pkill qrngd
+		nice -n 5 /system/bin/rngd -t 2 -T 1 -s 256 --fill-watermark=80%
+		echo -8 > /proc/$(pgrep rngd)/oom_adj
+	    fi
+	    [ -f /data/config.txt ] && sed -i -e "s/^START_SEEDER=.*/START_SEEDER=1/g" /data/config.txt
+	    ;;
+	qrngd)
+	    if [ -f /system/bin/qrngd ]; then
+		pkill rngd;pkill qrngd
+		nice -n 5 /system/bin/qrngd
+		echo -8 > /proc/$(pgrep qrngd)/oom_adj
+	    fi
+	    [ -f /data/config.txt ] && sed -i -e "s/^START_SEEDER=.*/START_SEEDER=2/g" /data/config.txt
+	    ;;
+    esac;
+fi
+
+echo ${seeder}

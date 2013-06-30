@@ -1,0 +1,44 @@
+#!/sbin/busybox sh
+
+if [ "$2" ]; then
+    boostfreq=$2
+
+    LIB_POW=/system/lib/hw/power.exynos4.so
+    DEF_POW=/system/lib/hw/power.exynos4-default.so
+    OFF_POW=/system/lib/hw/power.exynos4-off.so
+    LINK_POW=$(readlink -f $LIB_POW);
+
+    GOVERNOR=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)
+    BOOSTFREQ_PATH=/sys/devices/system/cpu/cpufreq/$GOVERNOR/boostfreq
+
+    if [ "$(cat /sys/devices/system/cpu/cpu0/cpufreq/UV_mV_table|wc -l)" = "5" ]; then
+	case "${boostfreq}" in
+	    0)    boostfreq=200  ;;
+	    100)  boostfreq=200  ;;
+	    200)  boostfreq=200  ;;
+	    300)  boostfreq=500  ;;
+	    400)  boostfreq=500  ;;
+	    500)  boostfreq=500  ;;
+	    600)  boostfreq=800  ;;
+	    700)  boostfreq=800  ;;
+	    800)  boostfreq=800  ;;
+	    900)  boostfreq=1000 ;;
+	    1000) boostfreq=1000 ;;
+	    1100) boostfreq=1000 ;;
+	    *)    boostfreq=1200 ;;
+	esac
+    fi
+
+    if [ "$LINK_POW" = "$OFF_POW" ] || [ ! -f "$BOOSTFREQ_PATH" ]; then
+	echo ${boostfreq} > /sys/devices/system/cpu/cpufreq/boostfreq
+	echo ${boostfreq}000 > /sys/class/sec/sec_touchscreen/tsp_touch_freq
+
+    else
+	echo ${boostfreq} > $BOOSTFREQ_PATH
+	echo 200000 > /sys/class/sec/sec_touchscreen/tsp_touch_freq
+    fi
+
+    [ -f /data/config.txt ] && sed -i -e "s/^BOOSTPULSE_FREQ=.*/BOOSTPULSE_FREQ=${boostfreq}/g" /data/config.txt
+fi
+
+echo ${boostfreq}

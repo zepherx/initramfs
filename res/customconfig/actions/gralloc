@@ -1,0 +1,61 @@
+#!/sbin/busybox sh
+
+link_lib() {
+    local SRC_LIB=$1
+    local DST_LIB=$2
+
+    [ -f $SRC_LIB ] && chmod 644 $SRC_LIB
+    rm -f $DST_LIB
+    ln -s $SRC_LIB $DST_LIB
+}
+
+if [ "$2" ]; then
+    gralloc=$2
+
+    LIB_GRA=/system/lib/hw/gralloc.exynos4.so
+    MR0_GRA=/system/lib/hw/mr0.gralloc.exynos4.so
+    MR1_GRA=/system/lib/hw/mr1.gralloc.exynos4.so
+
+    LIB_HWC=/system/lib/hw/hwcomposer.exynos4.so
+    MR0_HWC=/system/lib/hw/mr0.hwcomposer.exynos4.so
+    MR1_HWC=/system/lib/hw/mr1.hwcomposer.exynos4.so
+
+    case "${gralloc}" in
+	opensource) 
+	    MR_GRA=$MR1_GRA
+	    MR_HWC=$MR1_HWC
+	    [ -f /data/config.txt ] && sed -i -e "s/^OPENSOURCE_GRALLOC=.*/OPENSOURCE_GRALLOC=0/g" /data/config.txt
+	    ;;
+	samsung)
+	    MR_GRA=$MR0_GRA
+	    MR_HWC=$MR0_HWC
+	    [ -f /data/config.txt ] && sed -i -e "s/^OPENSOURCE_GRALLOC=.*/OPENSOURCE_GRALLOC=1/g" /data/config.txt
+	    ;;
+    esac
+
+    if [ -f $MR0_GRA ] && [ -f $MR1_GRA ]; then
+	LINK_GRA=$(readlink -f $LIB_GRA);
+	if [ "$LINK_GRA" != "$MR_GRA" ]; then
+	    [ -f $MR_GRA ] && SET_GRA=1
+
+	    LINK_HWC=$(readlink -f $LIB_HWC)
+	    if [ "$LINK_HWC" != "$MR_HWC" ]; then
+		[ -f $MR_HWC ] && SET_HWC=1
+	    fi
+
+	    if [ "$SET_GRA" = "1" ] || [ "$SET_HWC" = "1" ]; then
+		mount -o remount,rw /system
+		if [ "$SET_GRA" = "1" ]; then
+		    link_lib $MR_GRA $LIB_GRA
+		    [ "$LINK_GRA" != "$LIB_GRA" ] && REBOOT_SYSTEM=1
+		fi
+		if [ "$SET_HWC" = "1" ]; then
+		    link_lib $MR_HWC $LIB_HWC
+		fi
+		mount -o remount,ro /system
+	    fi
+	fi
+    fi
+fi
+
+echo ${gralloc}
