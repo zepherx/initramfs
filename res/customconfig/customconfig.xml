@@ -231,20 +231,6 @@ unit="MSec" min="100" reversed="false" step="50" max="1000"/>
        <seekBar description="Sets touchscreen move sensitivity (vitalij value)." 
 		name="TouchMove Sensitivity" action="generic /sys/bus/i2c/devices/3-004a/mov_hysti" unit=" pixel" min="0" reversed="false" step="1" max="20"/>
 <checkbox description="Enable LCD-Powersaving Mode" name="LCD-Powersaving Mode (needs restart)" action="generic01 /sys/class/lcd/panel/power_reduce" label="LCD-Powersaving Mode" />
-       <seekBar description="Setting min_bl higher will result in staying lowest brightness level for brighter conditions (default 30)" 
-		name="min_bl" action="generic /sys/class/misc/brightness_curve/min_bl" unit="" min="0" reversed="false" step="10" max="150"/>
-       <seekBar description="Minimum brightness level (default 0)" 
-		name="min_gamma" action="generic /sys/class/misc/brightness_curve/min_gamma" unit="" min="0" reversed="false" step="1" max="24"/>
-       <seekBar description="Maximum brightness level (default 24)" 
-		name="max_gamma" action="generic /sys/class/misc/brightness_curve/max_gamma" unit="" min="0" reversed="false" step="1" max="24"/>
-    </settingsPane>
-    <settingsPane description="Other Settings" name="Other Settings">
-       <seekBar description="User adjustable gamma shift." 
-		name="Gamma Shift" action="generic /sys/class/lcd/panel/user_gamma_adjust" unit="" min="-50" reversed="false" step="5" max="50"/>
-       <checkbox description="Enable slide2wake feature. Enabling this feature may decrease your battery life." name="Slide2Wake" action="generic01 /sys/devices/virtual/sec/sec_touchscreen/tsp_slide2wake" label="Slide2Wake"/>
-       <checkbox description="Enable inverting the screen colors by quickly pressing Home button 4 times" name="mDNIe Negative Toggle" action="generic01 /sys/module/gpio_keys/parameters/mdnie_shortcut_enabled" label="mDNIe Negative Toggle"/>
-       <seekBar description="FB earlysuspend delay to run CRT animation when you turn the screen off." 
-		name="FB Earlysuspend Delay" action="generickmem fbearlysuspend_delay 0 int" unit=" ms" min="0" reversed="false" step="100" max="500"/>
     </settingsPane>
   </settingsTab>
   <settingsTab name="BLN">
@@ -277,12 +263,7 @@ unit="MSec" min="100" reversed="false" step="50" max="1000"/>
              <spinnerItem name="60 sec" value="60000"/> 
        </spinner>
        <checkbox description="BLN Without Wakelock. You cannot use blinking or breathing effects together with this option. Enabling this will let the CPU sleep during BLN and save battery." name="BLNWW" action="generic /sys/class/misc/notification/blnww" label="BLNWW"/>
-       <checkbox description="Led fadeout effect. If you are on a Samsung ROM, you need to set touchkey leds to always on or always off and use led timeout in ExTweaks." name="led-fadeout" action="generic /sys/class/misc/notification/led_fadeout" label="led-fadeout"/>
-       <checkbox description="Selecting this will activate turning touckey leds on when you touch the screen (only when led timeout is enabled)." name="Leds on with touch" action="generic /sys/class/misc/notification/led_on_touch" label="led-on-touch"/>
        <button description="Use this button to test bln. BLN will be active after you turn the screen off." name="Test BLN" action="test-bln" label="Test BLN"/>
-       <seekBar description="Controls touchpad led voltage level (default: 3000)" 
-		name="Led Voltage Level" action="generic /sys/devices/virtual/sec/sec_touchkey/touchkey_brightness" unit=" mV" min="2500" reversed="false" step="50" max="3300"/>
-       <checkbox description="Automatic touchpad led voltage level. If this one is checked touchpad led voltage level will be ignored." name="Auto Led Voltage" action="generic /sys/class/misc/notification/dyn_brightness" label="Auto Led Voltage"/>
     </settingsPane>
   </settingsTab>
   <settingsTab name="Misc">
@@ -313,16 +294,4 @@ unit="MSec" min="100" reversed="false" step="50" max="1000"/>
 <button description="Delete backup" name="Delete backup" action="remove" label="Delete Backup"/>
     </settingsPane>
 </settingsTab>
-<settingsTab name="Dualboot">
-    <settingsPane description="Dual-Boot Settings. Warning: No confirmation will be asked for reboot buttons." name="Dual-Boot Settings">
-      <button description="Reboot into custom recovery which let you configure, clone or backup the 2ndROM" name="Reboot into Recovery" action="reboot-into 0" label="Reboot into 2ndROM Utils"/>
-      <button description="Reboot into 1stROM" name="Reboot into 1stROM" action="reboot-into 1" label="Reboot into 1stROM"/>
-      <button description="Reboot into 2ndROM" name="Reboot into 2ndROM" action="reboot-into 2" label="Reboot into 2ndROM"/>
-      <checkbox description="Check this if you don't want boot logo to be shown. If this options is checked boot logo will not be shown even if you have 2ndROM installed." name="No boot-logo" action="no-boot-logo" label="No boot-logo"/>
-      <spinner description="Default ROM to boot into. If you don't have 2ndROM installation 1stROM will be booted. If you press the home or volume-down buttons during the boot logo the alternative ROM will be booted, i.e. 1stROM will be booted if the default ROM selection is the 2ndROM." name="Default ROM" action="defaultrom">
-             <spinnerItem name="1stROM" value="0"/> 
-             <spinnerItem name="2ndROM" value="1"/> 
-      </spinner>
-    </settingsPane>
-  </settingsTab>
 </settingsRoot>
