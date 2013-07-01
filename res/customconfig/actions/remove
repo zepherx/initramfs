@@ -1,5 +1,7 @@
 #!/sbin/busybox sh
-if [ -f /data/bkp.profile ]; then
+
+su
 rm /data/bkp.profile
-echo "Backup deleted"
-fi
+rm /data/.siyah/default.profile
+
+echo "Removed"

@@ -133,26 +133,11 @@ the boostpulse interface will increase the cpu's frequency to 800mhz for 500ms w
 	<spinnerItem name="Nunogil VM Tweaks" value="nunogil"/>
 	<spinnerItem name="Default VM Tweaks" value="default"/>
       </spinner>
-<seekBar description="Vibration intensity level (default 75%)" 
-name="Vibration Level" action="generic /sys/vibrator/pwm_val" unit="%" min="25" reversed="false" step="25" max="100"/>
 </settingsPane>
 </settingsPane>
 </settingsTab>
 
 <settingsTab name="GPU">
-<settingsPane description="Mali touchboost settings" name="Mali_touchboost">
-<spinner description="Select the level to be used to boost GPU frequency when you touch the screen." name="Mali Touch Boost Level" action="generic /sys/module/mali/parameters/mali_touch_boost_level">
-<spinnerItem name="Disabled" value="0"/> 
-<spinnerItem name="Step2" value="1"/> 
-<spinnerItem name="Step3" value="2"/> 
-<spinnerItem name="Step4" value="3"/>
-</spinner>
-</settingsPane>
-<settingsPane description="Mali utilization timeout" name="Mali utilization timeout">
-<seekBar description="Here you can change GPU utilization timeout calculation. Closer to 100 (0.1sec) and you'll get faster GPU response in steps jump on load, but more battery is drained. CM10 default: 1000 (1sec)"
-name="GPU Utilization Timeout" action="generic /sys/module/mali/parameters/mali_gpu_utilization_timeout"
-unit="MSec" min="100" reversed="false" step="50" max="1000"/>
-</settingsPane>
     <settingsPane description="GPU Frequency Settings. Defaults frequencies are 100, 160, 200 and 267. Voltage defaults are 900mV, 950mV, 950mV and 1000mV." name="GPUFreq">
       <spinner description="Changes the first GPU frequency step" name="GPU Freq Step1" action="gpu-freq 1">
              <spinnerItem name="267MHz" value="267"/> 
@@ -173,7 +158,7 @@ unit="MSec" min="100" reversed="false" step="50" max="1000"/>
              <spinnerItem name="100MHz" value="100"/>
       </spinner>
       <spinner description="Changes the fourth GPU frequency step" name="GPU Freq Step4" action="gpu-freq 4">
-             <spinnerItem name="400MHz" value="400"/> 
+             <spinnerItem name="400MHz (1100mv or freezes)" value="400"/> 
              <spinnerItem name="267MHz" value="267"/> 
              <spinnerItem name="200MHz" value="200"/> 
              <spinnerItem name="160MHz" value="160"/> 
@@ -206,9 +191,7 @@ unit="MSec" min="100" reversed="false" step="50" max="1000"/>
       <seekBar description="GPU threshold to jump down from fourth to third step" 
 		name="GPU Threshold 4-DOWN" action="gpu-thresh 4DOWN" unit="%" min="0" reversed="false" step="5" max="100"/> 
     </settingsPane>
-
-
-  </settingsTab>
+</settingsTab>
   <settingsTab name="Sound">
     <settingsPane description="Headphone Amplification Settings" name="Headphone Amplification">
       <seekBar description="Headphone Amplifier Level (0-3 which corresponds to 0-1.5-3-6dB)" 
@@ -223,14 +206,6 @@ unit="MSec" min="100" reversed="false" step="50" max="1000"/>
     <settingsPane description="Speaker Amplification Settings" name="Speaker Amplification">
       <seekBar description="Speaker Amplifier Level (Used in playing videos, calls with speakerphone, and so on)" 
 		name="Speaker Amplifier" action="sound_volume 3" unit="" min="-20" reversed="false" step="1" max="20"/>
-    </settingsPane>
-  </settingsTab>
-
-  <settingsTab name="Screen">
-    <settingsPane description="Brightness Curve settings which modify auto-brightness behavior." name="Brightness Curve">
-       <seekBar description="Sets touchscreen move sensitivity (vitalij value)." 
-		name="TouchMove Sensitivity" action="generic /sys/bus/i2c/devices/3-004a/mov_hysti" unit=" pixel" min="0" reversed="false" step="1" max="20"/>
-<checkbox description="Enable LCD-Powersaving Mode" name="LCD-Powersaving Mode (needs restart)" action="generic01 /sys/class/lcd/panel/power_reduce" label="LCD-Powersaving Mode" />
     </settingsPane>
   </settingsTab>
   <settingsTab name="BLN">
@@ -252,16 +227,6 @@ unit="MSec" min="100" reversed="false" step="50" max="1000"/>
              <spinnerItem name="Breathing" value="1"/> 
              <spinnerItem name="Blinking" value="2"/> 
        </spinner> 
-       <spinner description="Led timeout. Select 'Use ROM defaults' if your ROM already has led timeout support (requires restart). You will need to use this setting on Samsung ROMs if you want to use led fadeout effect." name="led_timeout" action="generic /sys/class/misc/notification/led_timeout_ms">
-             <spinnerItem name="Use ROM defaults (disabled)" value="-1"/> 
-             <spinnerItem name="No timeout" value="0"/> 
-             <spinnerItem name="1 sec" value="1000"/> 
-             <spinnerItem name="3 sec" value="3000"/> 
-             <spinnerItem name="6 sec" value="6000"/> 
-             <spinnerItem name="15 sec" value="15000"/> 
-             <spinnerItem name="30 sec" value="30000"/> 
-             <spinnerItem name="60 sec" value="60000"/> 
-       </spinner>
        <checkbox description="BLN Without Wakelock. You cannot use blinking or breathing effects together with this option. Enabling this will let the CPU sleep during BLN and save battery." name="BLNWW" action="generic /sys/class/misc/notification/blnww" label="BLNWW"/>
        <button description="Use this button to test bln. BLN will be active after you turn the screen off." name="Test BLN" action="test-bln" label="Test BLN"/>
     </settingsPane>
