@@ -147,6 +147,35 @@ echo "50000" > /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
 echo 50000 > /sys/fs/cgroup/timer_slack.min_slack_ns
 echo 70000 > /sys/fs/cgroup/timer_slack.effective_slack_ns
 
+# sd card tweak (thanks @infected_)
+echo "4096" > /sys/devices/virtual/bdi/179:0/read_ahead_kb
+
+# Flags blocks as non-rotational and increases cache size (thanks @infected_)
+LOOP=`ls -d /sys/block/loop*`;
+RAM=`ls -d /sys/block/ram*`;
+MMC=`ls -d /sys/block/mmc*`;
+for j in $LOOP $RAM
+do
+echo "0" > $j/queue/rotational;
+echo "4096" > $j/queue/read_ahead_kb;
+done
+
+# ext4 tweaks (thanks @infected_)
+tune2fs -f -o journal_data_writeback /dev/block/mmcblk0p9
+tune2fs -f -O ^has_journal /dev/block/mmcblk0p9
+tune2fs -f -o journal_data_writeback /dev/block/mmcblk0p7
+tune2fs -f -O ^has_journal /dev/block/mmcblk0p7
+tune2fs -f -o journal_data_writeback /dev/block/mmcblk0p10
+tune2fs -f -O ^has_journal /dev/block/mmcblk0p10
+
+# battery tweaks (thanks @infected_)
+if [ "$battery" == "on" ];then
+echo "500" > /proc/sys/vm/dirty_expire_centisecs
+echo "1000" > /proc/sys/vm/dirty_writeback_centisecs
+
+# force UMTS always
+setprop hsxpa 0
+
 exec /sbin/ext/modules.sh
 
 ##### init scripts #####

@@ -24,6 +24,7 @@ CPUVOLT15=950
 CPUVOLT16=950
 frandom=on
 wifi_pm=off
+battery=on
 GENTLE_FAIR_SLEEPERS=off
 ARCH_POWER=on
 cfs_tweaks=1

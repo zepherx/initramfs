@@ -109,6 +109,7 @@ the boostpulse interface will increase the cpu's frequency to 800mhz for 500ms w
 </settingsPane>
 <settingsPane description="These settings control wifi power." name="Wifi power">
 <checkbox description="Enable or Disable wifi power management. On = performance (faster downloads with screen off) Off = battery (default), needs restart." name="wifi_pm" action="generic /tmp/wifi_pm" label="wifi_pm"/>
+<checkbox description="Enable or Disable battery tweaks (thanks @infected_)." name="Battery tweaks" action="generic /tmp/battery" label="battery"/>
 </settingsPane>
 <settingsPane description="These settings control CFS (Complete Fair Scheduler) Task Scheduler Settings" name="CFS Settings">
       <checkbox description="Disabling GENTLE_FAIR_SLEEPERS may give you better UI responsiveness." name="GENTLE_FAIR_SLEEPERS" action="schedfeat GENTLE_FAIR_SLEEPERS" label="GENTLE_FAIR_SLEEPERS"/>
