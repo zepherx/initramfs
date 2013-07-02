@@ -1,0 +1,25 @@
+#!/sbin/busybox sh
+
+if [ "$2" ]; then
+    gpsconf=$2
+
+    case "${gpsconf}" in
+	1)
+	    cp /res/gps.conf/gps.conf.south-america /system/etc/gps.conf
+	    ;;
+	2)
+	    cp /res/gps.conf/gps.conf.north-america /system/etc/gps.conf
+	    ;;
+	3)
+	    cp /res/gps.conf/gps.conf.africa /system/etc/gps.conf
+	    ;;
+	4)
+	    cp /res/gps.conf/gps.conf.oceania /system/etc/gps.conf
+	    ;;
+	5)
+	    cp /res/gps.conf/gps.conf.europe /system/etc/gps.conf
+	    ;;
+    esac
+fi
+
+echo ${gpsconf}

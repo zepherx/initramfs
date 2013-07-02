@@ -172,6 +172,7 @@ tune2fs -f -O ^has_journal /dev/block/mmcblk0p10
 if [ "$battery" == "on" ];then
 echo "500" > /proc/sys/vm/dirty_expire_centisecs
 echo "1000" > /proc/sys/vm/dirty_writeback_centisecs
+fi
 
 # force UMTS always
 setprop hsxpa 0
