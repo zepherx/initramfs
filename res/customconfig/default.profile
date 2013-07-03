@@ -17,7 +17,6 @@ battery=on
 GENTLE_FAIR_SLEEPERS=off
 ARCH_POWER=on
 cfs_tweaks=1
-gpsregion=No_GPS_Zone_changes
 scrollcache=on
 navigationbar=off
 mediascanner=default

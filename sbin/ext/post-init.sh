@@ -156,9 +156,6 @@ setprop net.ppp0.dns1 8.8.8.8
 setprop net.ppp0.dns2 8.8.4.4
 setprop net.dns1 8.8.8.8
 setprop net.dns2 8.8.4.4
-### Dex-Optimize Data Only
-setprop dalvik.vm.dexopt-data-only 1
-setprop dalvik.vm.dexopt-flags 1
 ### Hardware Acceleration Enabled
 setprop persist.sys.ui.hw 1
 ### Force GPU Rendering on 2d Operations (build.prop part)
@@ -191,7 +188,7 @@ setprop ro.media.enc.jpeg.quality 100,100,100
     setprop net.tcp.buffersize.evdo_b  4096,87380,704512,4096,16384,262144
 # Disable Google OTA Update checkin
 setprop ro.config.nocheckin 1
-    
+
 setprop dalvik.vm.execution-mode int:jit
 
 exec /sbin/ext/modules.sh
