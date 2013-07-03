@@ -147,8 +147,52 @@ echo "500" > /proc/sys/vm/dirty_expire_centisecs
 echo "1000" > /proc/sys/vm/dirty_writeback_centisecs
 fi
 
-# force UMTS always
-setprop hsxpa 0
+### Helps Scrolling Responsiveness
+setprop windowsmgr.max_events_per_sec 300
+setprop ro.max.fling_velocity 12500
+setprop ro.min.fling_velocity 8300
+### Faster DNS Resolution Tweaks
+setprop net.ppp0.dns1 8.8.8.8
+setprop net.ppp0.dns2 8.8.4.4
+setprop net.dns1 8.8.8.8
+setprop net.dns2 8.8.4.4
+### Dex-Optimize Data Only
+setprop dalvik.vm.dexopt-data-only 1
+setprop dalvik.vm.dexopt-flags 1
+### Hardware Acceleration Enabled
+setprop persist.sys.ui.hw 1
+### Force GPU Rendering on 2d Operations (build.prop part)
+setprop debug.performance.tuning 1
+setprop debug.sf.hw 1
+setprop debug.egl.profiler 1
+setprop debug.composition.type gpu
+### Allow the purge of assets to free-up more RAM
+setprop persist.sys.purgeable_assets 1
+### Enable Adaptive Multi-Rate Wideband
+setprop ro.ril.enable.amr.wideband 1
+### Disables Built In Error Reporting
+setprop profiler.force_disable_err_rpt 1
+setprop profiler.force_disable_ulog 1
+# Video Tuning
+setprop ro.media.enc.jpeg.quality 100,100,100
+# Define TCP buffer sizes for various networks
+#   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
+    setprop net.tcp.buffersize.default 4096,87380,704512,4096,16384,110208
+    setprop net.tcp.buffersize.wifi    524288,1048576,2097152,262144,524288,1048576
+    setprop net.tcp.buffersize.lte     4096,87380,1220608,4096,16384,563200
+    setprop net.tcp.buffersize.umts    4096,87380,563200,4096,16384,110208
+    setprop net.tcp.buffersize.hspa    4096,87380,704512,4096,16384,110208
+    setprop net.tcp.buffersize.hsupa   4096,87380,704512,4096,16384,262144
+    setprop net.tcp.buffersize.hsdpa   4096,87380,704512,4096,16384,262144
+    setprop net.tcp.buffersize.hspap   4096,87380,1220608,4096,16384,393216
+    setprop net.tcp.buffersize.edge    4096,26280,35040,4096,16384,35040
+    setprop net.tcp.buffersize.gprs    4096,8760,11680,4096,8760,11680
+    setprop net.tcp.buffersize.evdo    4096,87380,563200,4096,16384,262144
+    setprop net.tcp.buffersize.evdo_b  4096,87380,704512,4096,16384,262144
+# Disable Google OTA Update checkin
+setprop ro.config.nocheckin 1
+    
+setprop dalvik.vm.execution-mode int:jit
 
 exec /sbin/ext/modules.sh
 
