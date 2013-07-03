@@ -221,7 +221,6 @@ the boostpulse interface will increase the cpu's frequency to 800mhz for 500ms w
     <settingsPane description="Backup Settings" name="Backup Settings">
       <button description="Backups current profile to be restored later by user and to be restored after kernel installation" name="Backup" action="backup" label="Backup"/>
 <button description="Restores saved profile" name="Restore" action="restore" label="Restore"/>
-<button description="Delete backup" name="Delete backup" action="remove" label="Delete Backup"/>
     </settingsPane>
 </settingsTab>
 </settingsRoot>

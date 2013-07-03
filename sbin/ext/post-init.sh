@@ -7,21 +7,13 @@
 
 #!/sbin/busybox sh
 
-
-if [ -f /data/backup.profile ]; then
-rm /data/backup.profile
-fi
-
 if [ -f /data/bkp.profile ]; then
-chown system.system /data/bkp.profile
-chmod 0644 /data/bkp.profile
+chown root.system /data/bkp.profile
+chmod 0777 /data/bkp.profile
 fi
 
 mkdir /data/.siyah
-chmod 777 /data/.siyah
-
-rm /data/.siyah/default.profile
-rm /data/backup.profile
+chmod 0777 /data/.siyah
 
 . /res/customconfig/customconfig-helper
 
@@ -33,30 +25,11 @@ then
 fi
 [ ! -f /data/.siyah/default.profile ] && cp /res/customconfig/default.profile /data/.siyah
 
-#check if there is a backup available, check if default profile and active profile are the same
-if ls /data/bkp.profile &> /dev/null; then
-USERPROFILE= cat /data/.siyah/default.profile
-DEFAULTPROFILE= cat /res/customconfig/default.profile
-#if yes then apply the backup to restore user settings
-if [ "$USERPROFILE" = "$DEFAULTPROFILE" ]; then 
-cp /data/bkp.profile /data/.siyah/default.profile
-echo memory=balanced >> /data/.siyah/default.profile
-else
-read_defaults
-read_config
-fi
-fi
-
 read_defaults
 read_config
 
 #cpu undervolting
 echo "${cpu_undervolting}" > /sys/devices/system/cpu/cpu0/cpufreq/vdd_levels
-
-#mdnie sharpness tweak
-if [ "$mdniemod" == "on" ];then
-. /sbin/ext/mdnie-sharpness-tweak.sh
-fi
 
 if [ "$logger" == "on" ];then
 insmod /lib/modules/logger.ko

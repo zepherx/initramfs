@@ -1,7 +1,8 @@
 #!/sbin/busybox sh
 
 su
+chown root.shell /data/bkp.profile
+chmod 0664 /data/bkp.profile
 rm /data/bkp.profile
-rm /data/.siyah/default.profile
 
 echo "Removed"
