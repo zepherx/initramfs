@@ -7,6 +7,9 @@
 
 #!/sbin/busybox sh
 
+chown root.shell /system/etc/gps.conf
+chmod 0664 /system/etc/gps.conf
+
 if [ -f /data/bkp.profile ]; then
 chown root.system /data/bkp.profile
 chmod 0777 /data/bkp.profile
@@ -147,49 +150,64 @@ echo "500" > /proc/sys/vm/dirty_expire_centisecs
 echo "1000" > /proc/sys/vm/dirty_writeback_centisecs
 fi
 
-### Helps Scrolling Responsiveness
-setprop windowsmgr.max_events_per_sec 300
-setprop ro.max.fling_velocity 12500
-setprop ro.min.fling_velocity 8300
-### Faster DNS Resolution Tweaks
-setprop net.ppp0.dns1 8.8.8.8
-setprop net.ppp0.dns2 8.8.4.4
-setprop net.dns1 8.8.8.8
-setprop net.dns2 8.8.4.4
-### Hardware Acceleration Enabled
-setprop persist.sys.ui.hw 1
-### Force GPU Rendering on 2d Operations (build.prop part)
-setprop debug.performance.tuning 1
-setprop debug.sf.hw 1
-setprop debug.egl.profiler 1
-setprop debug.composition.type gpu
-### Allow the purge of assets to free-up more RAM
-setprop persist.sys.purgeable_assets 1
-### Enable Adaptive Multi-Rate Wideband
-setprop ro.ril.enable.amr.wideband 1
 ### Disables Built In Error Reporting
 setprop profiler.force_disable_err_rpt 1
 setprop profiler.force_disable_ulog 1
-# Video Tuning
-setprop ro.media.enc.jpeg.quality 100,100,100
-# Define TCP buffer sizes for various networks
-#   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
-    setprop net.tcp.buffersize.default 4096,87380,704512,4096,16384,110208
-    setprop net.tcp.buffersize.wifi    524288,1048576,2097152,262144,524288,1048576
-    setprop net.tcp.buffersize.lte     4096,87380,1220608,4096,16384,563200
-    setprop net.tcp.buffersize.umts    4096,87380,563200,4096,16384,110208
-    setprop net.tcp.buffersize.hspa    4096,87380,704512,4096,16384,110208
-    setprop net.tcp.buffersize.hsupa   4096,87380,704512,4096,16384,262144
-    setprop net.tcp.buffersize.hsdpa   4096,87380,704512,4096,16384,262144
-    setprop net.tcp.buffersize.hspap   4096,87380,1220608,4096,16384,393216
-    setprop net.tcp.buffersize.edge    4096,26280,35040,4096,16384,35040
-    setprop net.tcp.buffersize.gprs    4096,8760,11680,4096,8760,11680
-    setprop net.tcp.buffersize.evdo    4096,87380,563200,4096,16384,262144
-    setprop net.tcp.buffersize.evdo_b  4096,87380,704512,4096,16384,262144
-# Disable Google OTA Update checkin
-setprop ro.config.nocheckin 1
 
-setprop dalvik.vm.execution-mode int:jit
+# aplly gps configurations
+su
+chown root.shell /system/etc/gps.conf
+chmod 0664 /system/etc/gps.conf
+rm /system/etc/gps.conf
+
+if [ "$default" == "on" ];then
+su
+cp /res/gps.conf/gps.conf.north-america /system/etc/gps.conf
+fi
+
+if [ "$africa" == "on" ];then
+su
+cp /res/gps.conf/gps.conf.africa /system/etc/gps.conf
+fi
+
+if [ "$asia" == "on" ];then
+su
+cp /res/gps.conf/gps.conf.asia /system/etc/gps.conf
+fi
+
+if [ "$europe" == "on" ];then
+su
+cp /res/gps.conf/gps.conf.europe /system/etc/gps.conf
+fi
+
+if [ "$oceania" == "on" ];then
+su
+cp /res/gps.conf/gps.conf.oceania /system/etc/gps.conf
+fi
+
+if [ "$samerica" == "on" ];then
+su
+cp /res/gps.conf/gps.conf.south-america /system/etc/gps.conf
+fi
+
+if [ "$gpslib" == "on" ];then
+#install fixed gps lib
+su
+mount -o remount,rw /system
+rm /system/lib/hw/gps.exynos4.so
+cp /res/gps.exynos4.so /system/lib/hw/gps.exynos4.so
+chown root.root /system/lib/hw/gps.exynos4.so
+chmod 0664 /system/lib/hw/gps.exynos4.so
+else
+#install default gps lib
+mount -o remount,rw /system
+rm /system/lib/hw/gps.exynos4.so
+cp /res/gps.exynos4.so.default /system/lib/hw/gps.exynos4.so
+chown root.root /system/lib/hw/gps.exynos4.so
+chmod 0664 /system/lib/hw/gps.exynos4.so
+fi
+
+# end gps configurations
 
 exec /sbin/ext/modules.sh
 

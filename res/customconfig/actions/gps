@@ -1,0 +1,47 @@
+#!/sbin/busybox sh
+
+if [ "a$2" != "a" ];then
+  gps=$2
+fi
+
+su
+mount -o remount,rw /
+chown root.shell /system/etc/gps.conf
+chmod 0644 /system/etc/gps.conf
+
+case "${gps}" in
+  default)
+    su
+    rm /system/etc/gps.conf
+    cp /res/gps.conf/gps.conf.north-america /system/etc/gps.conf
+    ;;
+  africa)
+    su
+    rm /system/etc/gps.conf
+    cp /res/gps.conf/gps.conf.africa /system/etc/gps.conf
+    ;;
+  asia)
+    su
+    rm /system/etc/gps.conf
+    cp /res/gps.conf/gps.conf.asia /system/etc/gps.conf
+    ;;
+  europe)
+    su
+    rm /system/etc/gps.conf
+    cp /res/gps.conf/gps.conf.europe /system/etc/gps.conf
+    ;;
+  oceania)
+    su
+    rm /system/etc/gps.conf
+    cp /res/gps.conf/gps.conf.oceania /system/etc/gps.conf
+    ;;
+  south-america)
+    su  
+    rm /system/etc/gps.conf
+    cp /res/gps.conf/gps.conf.south-america /system/etc/gps.conf
+    ;;
+esac;
+
+mount -o remount,ro /
+
+echo $gps
