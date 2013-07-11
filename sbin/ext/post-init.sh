@@ -196,6 +196,15 @@ fi
 
 # end gps configurations
 
+# gpu watch
+cp /res/gpuwatch /system/bin/gpuwatch
+chown root.system /system/bin/gpuwatch
+chmod 0755 /system/bin/gpuwatch
+
+cp /res/gpucat /system/bin/gpucat
+chown root.system /system/bin/gpucat
+chmod 0755 /system/bin/gpucat
+
 exec /sbin/ext/modules.sh
 
 ##### init scripts #####
