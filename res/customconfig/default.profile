@@ -23,7 +23,6 @@ scrollcache=on
 navigationbar=off
 mediascanner=default
 vmtweaks=disable
-gpslib=off
 default=on
 africa=off
 asia=off

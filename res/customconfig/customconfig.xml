@@ -97,9 +97,6 @@ the boostpulse interface will increase the cpu's frequency to 800mhz for 500ms w
 </settingsPane>
 </settingsTab>
 <settingsTab name="GPS">
-<settingsPane description="GPS lib fix" name="GPS lib fix">
-<checkbox description="GPS lib for faster lock." name="Boostpulse" action="generic /tmp/gpslib" label="GPS lib fix"/>
-</settingsPane>
 <settingsPane description="These settings control GPS configuration. Do NOT let 2 of them marked. This will replace /system/etc/gps.conf with an appropriate file for your location. Needs restart." name="GPS Settings">
 <checkbox description="" name="" action="generic /tmp/default" label="CM Default (North America)"/>
 <checkbox description="" name="" action="generic /tmp/africa" label="Africa"/>
