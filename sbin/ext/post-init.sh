@@ -38,8 +38,20 @@ if [ "$logger" == "on" ];then
 insmod /lib/modules/logger.ko
 fi
 
+# Enable Haveged Entropy Tweaks
 if [ "$frandom" == "on" ];then
-insmod /lib/modules/frandom.ko
+su
+mount -o remount,rw /system
+cat /res/haveged > /system/xbin/haveged
+chown root.root /system/xbin/haveged
+chmod 0755 /system/xbin/haveged
+. /sbin/ext/haveged.sh
+fi
+# Disable Haveged Entropy Tweaks
+if [ "$frandom" == "off" ];then
+su
+mount -o remount,rw /system
+rm /system/xbin/haveged
 fi
 
 # disable debugging on some modules
