@@ -177,23 +177,6 @@ su
 cp /res/gps.conf/gps.conf.south-america /system/etc/gps.conf
 fi
 
-if [ "$gpslib" == "on" ];then
-#install fixed gps lib
-su
-mount -o remount,rw /system
-rm /system/lib/hw/gps.exynos4.so
-cp /res/gps.exynos4.so /system/lib/hw/gps.exynos4.so
-chown root.root /system/lib/hw/gps.exynos4.so
-chmod 0664 /system/lib/hw/gps.exynos4.so
-else
-#install default gps lib
-mount -o remount,rw /system
-rm /system/lib/hw/gps.exynos4.so
-cp /res/gps.exynos4.so.default /system/lib/hw/gps.exynos4.so
-chown root.root /system/lib/hw/gps.exynos4.so
-chmod 0664 /system/lib/hw/gps.exynos4.so
-fi
-
 # end gps configurations
 
 # gpu watch
